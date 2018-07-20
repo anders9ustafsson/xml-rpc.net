@@ -10,14 +10,18 @@ class _
 {
   static void Main(string[] args)
   {
-    bool bUseSoap = false;
+    HttpChannel chnl;
+#if DOTNETONLY
+        bool bUseSoap = false;
     if (args.Length > 0 && args[0] == "SOAP")
       bUseSoap = true;
-    HttpChannel chnl;
     if (bUseSoap)
       chnl = new HttpChannel();
     else
       chnl = new HttpChannel(null, new XmlRpcClientFormatterSinkProvider(), null);
+#else
+    chnl = new HttpChannel();
+#endif
     ChannelServices.RegisterChannel(chnl, false);
 
     IStateName svr = (IStateName)Activator.GetObject(

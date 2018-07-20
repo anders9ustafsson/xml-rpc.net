@@ -65,7 +65,7 @@ namespace CookComputing.XmlRpc
       return ret;
     }
 
-#if (!SILVERLIGHT)
+#if (DOTNETONLY)
     public static object CreateAssembly(
       Type itf,
       string typeName,
@@ -99,12 +99,12 @@ namespace CookComputing.XmlRpc
       AssemblyName assName = new AssemblyName();
       assName.Name = assemblyName;
 #if (!SILVERLIGHT)
-      if (access == AssemblyBuilderAccess.RunAndSave)
+      if (access != AssemblyBuilderAccess.Run)
         assName.Version = itf.Assembly.GetName().Version;
 #endif
-      AssemblyBuilder assBldr = AppDomain.CurrentDomain.DefineDynamicAssembly(
+      AssemblyBuilder assBldr = AssemblyBuilder.DefineDynamicAssembly(
         assName, access);
-#if (!SILVERLIGHT)
+#if (DOTNETONLY)
       ModuleBuilder modBldr = (access == AssemblyBuilderAccess.Run
         ? assBldr.DefineDynamicModule(assName.Name)
         : assBldr.DefineDynamicModule(assName.Name, moduleName));
@@ -120,8 +120,12 @@ namespace CookComputing.XmlRpc
       BuildMethods(typeBldr, methods);
       BuildBeginMethods(typeBldr, beginMethods);
       BuildEndMethods(typeBldr, endMethods);
+#if DOTNETONLY
       typeBldr.CreateType();
-      return assBldr;
+#else
+      typeBldr.CreateTypeInfo();
+#endif
+            return assBldr;
     }
 
     static void BuildMethods(TypeBuilder tb, List<MethodData> methods)

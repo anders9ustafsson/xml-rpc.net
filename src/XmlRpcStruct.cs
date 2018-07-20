@@ -26,6 +26,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Security;
 
 namespace CookComputing.XmlRpc
 {
@@ -184,6 +185,7 @@ namespace CookComputing.XmlRpc
     }
 
 #if (!SILVERLIGHT)
+    [SecurityCritical]
     public void GetObjectData(SerializationInfo info, StreamingContext context)
     {
       throw new NotImplementedException(); // TODO: implement

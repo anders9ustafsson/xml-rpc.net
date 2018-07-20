@@ -23,9 +23,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 */
 
+
 namespace CookComputing.XmlRpc
 {
   using System;
+  using System.Security;
 #if (!COMPACT_FRAMEWORK)
   using System.Runtime.Serialization;
 #endif
@@ -76,6 +78,7 @@ namespace CookComputing.XmlRpc
 #if (!COMPACT_FRAMEWORK && !SILVERLIGHT)
     // public methods
     //
+    [SecurityCritical]
     public override void GetObjectData(
       SerializationInfo info, 
       StreamingContext context)

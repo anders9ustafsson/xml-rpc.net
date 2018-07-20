@@ -30,7 +30,7 @@ using System.Reflection;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Messaging;
-
+using System.Security;
 using CookComputing.XmlRpc;
 
 namespace CookComputing.XmlRpc
@@ -49,16 +49,17 @@ namespace CookComputing.XmlRpc
     //
     public IServerChannelSink NextChannelSink 
     {
-      get { return m_next; }
+      [SecurityCritical] get { return m_next; }
     }
   
     public IDictionary Properties
     {
-      get { return null; }
+      [SecurityCritical] get { return null; }
     }
 
     // public methods
     //
+    [SecurityCritical]
     public void AsyncProcessResponse(
       IServerResponseChannelSinkStack sinkStack,
       object state,
@@ -70,6 +71,7 @@ namespace CookComputing.XmlRpc
       throw new NotSupportedException();
     }
 
+    [SecurityCritical]
     public Stream GetResponseStream(
       IServerResponseChannelSinkStack sinkStack, 
       object state, 
@@ -79,6 +81,7 @@ namespace CookComputing.XmlRpc
       throw new NotSupportedException();
     }
 
+    [SecurityCritical]
     public ServerProcessing ProcessMessage(
       IServerChannelSinkStack sinkStack,
       IMessage requestMsg,
@@ -126,6 +129,7 @@ namespace CookComputing.XmlRpc
 
     // private methods
     //
+    [SecurityCritical]
     MethodCall DeserializeRequest(
       ITransportHeaders requestHeaders, 
       Stream requestStream)
@@ -141,6 +145,7 @@ namespace CookComputing.XmlRpc
       return mthdCall;
     }
 
+    [SecurityCritical]
     void SerializeResponse(
       IMessage responseMsg,
       ref ITransportHeaders responseHeaders, 
@@ -169,6 +174,7 @@ namespace CookComputing.XmlRpc
       responseHeaders["Content-Type"] = "text/xml; charset=\"utf-8\"";
     }
 
+    [SecurityCritical]
     Header[] GetChannelHeaders(
       ITransportHeaders requestHeaders,
       XmlRpcRequest xmlRpcReq,
@@ -185,6 +191,7 @@ namespace CookComputing.XmlRpc
       return (Header[])hdrList.ToArray(typeof(Header));
     }
        
+    [SecurityCritical]
     public static Type GetServiceType(String Uri)
     {
       Type type = RemotingServices.GetServerTypeForUri(Uri);

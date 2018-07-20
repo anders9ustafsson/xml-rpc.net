@@ -292,7 +292,7 @@ namespace ntest
       Assert.AreEqual("Alabama Alaska Arizona", ret);
     }
 
-    [Test]
+    [Test, Ignore]
     public void FileIOPermission()
     {
       FileIOPermission f = new FileIOPermission(PermissionState.Unrestricted);

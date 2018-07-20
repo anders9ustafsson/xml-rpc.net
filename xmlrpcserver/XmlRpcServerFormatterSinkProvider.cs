@@ -26,7 +26,7 @@ DEALINGS IN THE SOFTWARE.
 using System;
 using System.Collections;
 using System.Runtime.Remoting.Channels;
-
+using System.Security;
 using CookComputing.XmlRpc;
 
 namespace CookComputing.XmlRpc
@@ -52,12 +52,13 @@ namespace CookComputing.XmlRpc
     //
     public IServerChannelSinkProvider Next
     {
-      get { return m_next; }
-      set { m_next = value; }
+      [SecurityCritical] get { return m_next; }
+      [SecurityCritical] set { m_next = value; }
     }
 
     // public methods
     //
+    [SecurityCritical]
     public IServerChannelSink CreateSink(
       IChannelReceiver channel)
     {
@@ -69,6 +70,7 @@ namespace CookComputing.XmlRpc
       return new XmlRpcServerFormatterSink(scs);
     }
 
+    [SecurityCritical]
     public void GetChannelData(IChannelDataStore channelData)
     {
       // TODO: not required???

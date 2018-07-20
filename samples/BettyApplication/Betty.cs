@@ -14,7 +14,7 @@ public interface IStateName : IXmlRpcProxy
   [XmlRpcMethod("examples.getStateName")]
   string GetStateName(int stateNumber); 
 
-  [XmlRpcMethod("examples.getStateStruct")]
+  [XmlRpcMethod("examples.getStateNames")]
   string GetStateNames(StateStructRequest request);
 }
 
